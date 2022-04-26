@@ -22,13 +22,13 @@ Run the "Yak Shop" App:
 	- "BACK": http://localhost:3001
 
 ## API (BACK):
-- /herd   <!-- herd data -->
-- /shop/:t   <!-- stock state by a day -->
-- /orders   <!-- CRUD controller for placing an order -->
-   - /         
-   - /:id      (@get)
-   - /:delete  (@delete)
-   - /:t       (@post with body: `{customer: string; order : { milk?: number; skins?: number; })`)
+- `/herd`   <!-- herd data -->
+- `/shop/:t`   <!-- stock state by a day -->
+- `/orders`   <!-- CRUD controller for placing an order -->
+   - `/`         
+   - `/:id`      (@get)
+   - `/:delete`  (@delete)
+   - `/:t`       (@post with body: `{customer: string; order : { milk?: number; skins?: number; })`)
     
     
 ### TODO:
