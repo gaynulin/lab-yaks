@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Gender, HerdService, ILabYak } from '../herd/herd.service';
 
-// TODO: Can we shave a yak male?
+// TODO: Can we shave a male yak?
 export interface IStock  {milk: number, skins: number}
 
 export interface ILabYakLastShived extends ILabYak {
     ageLastShived: number;
 }
+
 
 @Injectable()
 export class ShopService {
@@ -18,7 +19,7 @@ export class ShopService {
         const milk = this.getTotalMilkByDay(herd);
         const skins = this.getTotalSkinsOfWool(herd);
         
-        return {milk, skins}
+        return {milk, skins};
     }
 
     public static extendWithLastShivedDay (yak: ILabYak): ILabYakLastShived  {
@@ -31,11 +32,10 @@ export class ShopService {
         const femaleYaks = herd.filter(yak=>yak.sex === Gender.FEMALE);
 
         return femaleYaks.reduce((acc, yak)=> acc+ this.getMilkByYak(yak),0);
-
     }
    
     private getMilkByYak(labyak: ILabYak): number {
-        // 50-D*0.03
+        // 50-D*0.03  // O(n)
         const passedDays = Array.from({length:labyak.collectedDays+1});
 
         return passedDays.reduce((acc: number, _, dayIndex)=>{
@@ -48,7 +48,7 @@ export class ShopService {
 
     private getTotalSkinsOfWool(herd: ILabYak[]) {
         // TODO: Can we shave a yak male?
-        const canBeShiven = herd.filter(yak=>yak.age >= 1 );
+        const canBeShiven = herd.filter(yak=>yak.age >= 1 && yak.sex === Gender.FEMALE ); 
 
         return canBeShiven.reduce((acc, yak)=>acc + ShopService.getSkinsOfWoolByYak(yak).skins, 0);
     }

@@ -5,7 +5,7 @@ export class Order {
    @PrimaryGeneratedColumn()
    id: number;
 
-   @Column({nullable: false, length: 64})
+   @Column({nullable: false, length: 128})
    @Index()
    customer: string;
    

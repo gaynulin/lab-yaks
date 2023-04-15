@@ -12,7 +12,7 @@ export interface ILabYak {
     name: string,
     age: number,
     initialDays: number;
-    sex: Gender,
+    sex: Gender;
     collectedDays: number,
     ageDays: number
 }

@@ -9,5 +9,6 @@ COPY package-lock.json .
 RUN npm install --legacy-peer-deps
 COPY . .
 
+#RUN yarn migration:run
 
 CMD ["yarn", "start:dev"]

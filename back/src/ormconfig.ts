@@ -1,7 +1,7 @@
 import { ConnectionOptions } from 'typeorm';
 
 const config: ConnectionOptions = {
-    type: "postgres",
+    type: "postgres", 
     host: "localhost",
     username: "postgres",
     password: "123456",

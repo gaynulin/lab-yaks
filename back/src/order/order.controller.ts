@@ -13,7 +13,7 @@ export class OrderController {
         @Param("t") day: number,
         @Body() request: PlaceOrderDTO,
         @Res({ passthrough: true }) response: Response): Promise<OrderDTO> {
-        // todo to cast-decorator
+        // todo to cast-decorator // Number(day)
         const order: OrderDTO = await this.orderService.placeOrder(Number(day), request)
 
         if(!order) {

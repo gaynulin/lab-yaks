@@ -12,32 +12,32 @@ export class OrderService {
     constructor(
         @InjectRepository(Order) private readonly orderRepository: Repository<Order>,
         private readonly shopService: ShopService
-    ){}
+    ) { }
 
-    public async placeOrder(day: number, {order, customer}: PlaceOrderDTO): Promise<OrderDTO> {
+    public async placeOrder(day: number, { order, customer }: PlaceOrderDTO): Promise<OrderDTO> {
         const stock: IStock = this.shopService.getStockByDay(day);
 
-        const {milk, skins} = order;
-        const result: Partial<IStock>= {};
+        const { milk, skins } = order;
+        const result: Partial<IStock> = {};
         let isParticial = false;
 
-        if(milk && stock.milk < milk) {
-            isParticial = true; 
+        if (milk && stock.milk < milk) {
+            isParticial = true;
         } else {
-            result.milk = milk; 
+            result.milk = milk;
         }
 
-        if(skins && stock.skins < skins) {
-            isParticial = true; 
+        if (skins && stock.skins < skins) {
+            isParticial = true;
         } else {
-            result.skins = skins; 
-        }
-        
-        if(!result.milk && !result.skins) {
-            return null;  
+            result.skins = skins;
         }
 
-        return await this.store(day, customer, result, isParticial);        
+        if (!result.milk && !result.skins) {
+            return null;
+        }
+
+        return await this.store(day, customer, result, isParticial);
     }
 
     public async getAll(): Promise<OrderDTO[]> {
@@ -48,7 +48,7 @@ export class OrderService {
 
     public async getById(id: number) {
         const order: Order = await this.orderRepository.findOne(id);
-        if(!order) throw new NotFoundException(`The order id#${id} is not found`);
+        if (!order) throw new NotFoundException(`The order id#${id} is not found`);
 
         return this.mapToDTO(order);
     }
@@ -56,7 +56,7 @@ export class OrderService {
     public async deleteOne(taskId: number) {
         const order: Order = await this.getById(taskId);
         await this.orderRepository.remove(order);
-     }
+    }
 
 
     private async store(day: number, customer: string, result: Partial<IStock>, isParticial: boolean) {
@@ -69,20 +69,20 @@ export class OrderService {
         order.created = new Date();
 
         await this.orderRepository.save(order);
-       
-        return this.mapToDTO(order);        
+
+        return this.mapToDTO(order);
     }
 
     private mapToDTO(order: Order) {
         const orderDTO = new OrderDTO();
-        orderDTO.id =  order.id;
-        orderDTO.customer =  order.customer;
+        orderDTO.id = order.id;
+        orderDTO.customer = order.customer;
         orderDTO.day = order.day;
-        orderDTO.milk =  order.milk;
-        orderDTO.skins =  order.skins;
-        orderDTO.created =  order.created;
+        orderDTO.milk = order.milk;
+        orderDTO.skins = order.skins;
+        orderDTO.created = order.created;
         orderDTO.isParticial = order.isParticial;
 
-        return orderDTO;  
+        return orderDTO;
     }
 }
